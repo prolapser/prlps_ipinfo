@@ -204,6 +204,8 @@ class IpInfo:
             return {}
         is_crawler = self.get_nested(data, ['security', 'crawler_name']) + ' (' + self.get_nested(data, ['security', 'crawler_type']) + ')' if self.get_nested(data, ['security', 'is_crawler']) else False
         utc_offset = self.get_nested(data, ['time_zone', 'gmt_offset'])
+        utc_offset = utc_offset if utc_offset else 0
+
         return {
             'ip': ip,
             'continent': data.get('continent_name'),
@@ -270,6 +272,7 @@ class IpInfo:
         if "error" in data:
             return {}
         utc_offset = data.get('offset')
+        utc_offset = utc_offset if utc_offset else 0
         ip = data.get('ip', '')
         return {
             'ip' if ':' not in ip else 'ipv6': ip,
@@ -326,6 +329,7 @@ class IpInfo:
             return {}
         data = data.get('data')
         utc_offset = data.get('offset')
+        utc_offset = utc_offset if utc_offset else 0
         return {
             'ip': data.get('ipV4') if not data.get('ipV6') else '',
             'continent': data.get('continent'),
